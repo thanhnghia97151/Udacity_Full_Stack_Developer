@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul>
+      {% for d in data %}
+      <li>{{d.description}}</li>
+      {% endfor %}
+    </ul>
+    <form id="form" method="post" action="/todos/create">
+        <input type="text" id="description" name="description" />
+        <input type="submit" value="Create" />
+      </form>
+    <div class="hidden" id="error" style="display: none">
+      Something went wrong!
+    </div>
+    <script>
+        const descInput = document.getElementById('description');
+        document.getElementById('form').onsubmit = function(e) {
+          e.preventDefault();
+          const desc = descInput.value;
+          descInput.value = '';
+          fetch('/todos/create', {
+            method: 'POST',
+            body: JSON.stringify({
+              'description': desc,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(response => response.json())
+          .then(jsonResponse => {
+            console.log('response', jsonResponse);
+            li = document.createElement('li');
+            li.innerText = desc;
+            document.getElementById('todos').appendChild(li);
+            document.getElementById('error').className = 'hidden';
+          })
+          .catch(function() {
+            document.getElementById('error').className = '';
+          })
+        }
+    </script>
+  </body>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</html>
