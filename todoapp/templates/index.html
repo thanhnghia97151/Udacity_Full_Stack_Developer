@@ -21,8 +21,7 @@
     </form>
     <ul id="todos">
       {% for d in data %}
-      {% comment %} <li>{{ d.description }}</li> {% endcomment %}
-      <li> <input type = "checkbox" {% if d.completed %} checked {% endif %} /> {{d.description }}</li>
+      <li> <input type="checkbox" {% if d.completed %} checked {% endif %} /> {{d.description }}</li>
       {% endfor %}
     </ul>
     <script>
